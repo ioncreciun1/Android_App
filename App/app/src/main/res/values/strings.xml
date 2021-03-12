@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="Recipes">Recipes</string>
+    <string name="SList">Shopping List</string>
+    <string name="WeekDays">Week Days</string>
+    <string name="PlusButton">Plus Button</string>
+    <string name="item">Add Shopping item</string>
+    <string name="add">add</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
