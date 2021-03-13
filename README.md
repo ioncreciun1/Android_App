@@ -1,5 +1,9 @@
 # Android_App
 
+Due to the fact that I daily encounter the problem of what should I prepare, I came with an idea where I can plan my meals one week ahead.
+
+REQUIREMENTS
+
 High Priority
 1.As a user I would like to add/modify/delete recipes
 2.As a user I would like each recipe to have following parts:description,ingredients and preparation
