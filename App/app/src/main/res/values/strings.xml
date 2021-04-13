@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">App</string>
     <string name="Recipes">Recipes</string>
-    <string name="SList">Shopping List</string>
-    <string name="WeekDays">Week Days</string>
+    <string name="ShoppingList">Shopping List</string>
+    <string name="MealPlanner">Meal Planner</string>
     <string name="PlusButton">Plus Button</string>
-    <string name="item">Add Shopping item</string>
+    <string name="item">Add Shopping Item</string>
     <string name="add">add</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description">Description</string>
+    <string name="wRecipeName">Write Recipe Name</string>
+    <string name="RecipeName">Recipe Name</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="addIngredient">Add Ingredient</string>
+    <string name="preparation">Preparation</string>
+    <string name="plus">+</string>
+    <string name="wRecipeDescription">Write Recipe Description</string>
+    <string name="addRecipe">Save Recipe</string>
 </resources>

@@ -7,16 +7,16 @@
 
 
     <TextView
-        android:id="@+id/item_text"
+        android:id="@+id/add_ingredient_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item"
+        android:text="@string/addIngredient"
         android:textSize="18sp" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edit_item_shopping_add"
+        android:id="@+id/edit_add_ingredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_text"
-        android:layout_marginTop="19dp" />
+        android:layout_below="@+id/add_ingredient_text"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>

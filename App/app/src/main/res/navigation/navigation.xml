@@ -6,20 +6,20 @@
     app:startDestination="@id/nav_recipes">
 
     <fragment android:id="@+id/nav_recipes"
-        android:name = "com.example.app.RecipeFragment"
+        android:name = "com.example.app.View.RecipeFragment"
         android:label = "Recipes"
-        tools:layout = "@layout/fragment_recipe2"
+        tools:layout = "@layout/fragment_recipe"
         />
 
     <fragment android:id="@+id/nav_shopping_list"
-        android:name = "com.example.app.ShoppingListFragment"
+        android:name = "com.example.app.View.ShoppingListFragment"
         android:label = "Shopping List"
         tools:layout = "@layout/fragment_shopping_list"
         />
     <fragment android:id="@+id/nav_weekDays"
-        android:name = "com.example.app.WeekDaysFragment"
+        android:name = "com.example.app.View.MealPlanerFragment"
         android:label = "Week Days"
-        tools:layout = "@layout/fragment_week_days"
+        tools:layout = "@layout/fragment_meal_planer"
         />
 
 

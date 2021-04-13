@@ -4,27 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.ShoppingListFragment">
-
+    tools:context=".View.RecipeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shoppingRecycleView"
+        android:id="@+id/recipesRecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="25dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:nestedScrollingEnabled="true"
+        android:layout_marginBottom="70dp"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/recipeFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="80dp"
         android:contentDescription="@string/PlusButton"
         android:src="@drawable/ic_baseline_add_24"
         app:backgroundTint="@color/budGreen"
-        tools:ignore="OnClick" />
+
+        />
+
+
 </FrameLayout>

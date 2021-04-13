@@ -1,43 +1,41 @@
-package com.example.app;
+package com.example.app.View;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 
+import com.example.app.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
+
+    public MainActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Enable Only Light Mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         initViews();
         setNavigation();
     }
 
     private void initViews() {
+
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
 
 
     }
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                                 selectedFragment = new ShoppingListFragment();
                                 break;
                             case R.id.nav_weekDays:
-                                selectedFragment = new WeekDaysFragment();
+                                selectedFragment = new MealPlanerFragment();
                                 break;
                         }
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,selectedFragment).commit();
@@ -68,12 +66,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-    }
-
-
-    public void fabClick(View view)
-    {
-    ShoppingDialog dialog = new ShoppingDialog();
-    dialog.show(getSupportFragmentManager(),"example dialog");
     }
 }

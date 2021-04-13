@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.View;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class ShoppingDialog  extends AppCompatDialogFragment {
+import com.example.app.R;
+
+public class IngredientDialog  extends AppCompatDialogFragment {
 
     @NonNull
     @Override
@@ -19,7 +21,7 @@ public class ShoppingDialog  extends AppCompatDialogFragment {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog_shopping_item,null);
+        View view = inflater.inflate(R.layout.dialog_add_ingredient,null);
         dialog.setView(view).setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
