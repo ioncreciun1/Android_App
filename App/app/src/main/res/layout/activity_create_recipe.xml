@@ -48,7 +48,6 @@
                 android:id="@+id/createRecipeTitle"
                 style="@style/EditTextViewCreateRecipe"
                 android:layout_height="55dp"
-
                 android:hint="@string/wRecipeName" />
             <TextView
                 android:id="@+id/createRecipeDescriptionLabel"
@@ -62,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:maxHeight="150dp"
                 android:minHeight="55dp"
-                android:hint="@string/wRecipeName"
+                android:hint="@string/wRecipeDescription"
                 app:layout_constraintTop_toBottomOf="@id/createRecipeDescriptionLabel"
                 style="@style/EditTextViewCreateRecipe"
                 tools:ignore="MissingConstraints" />
@@ -113,7 +112,7 @@
             <EditText
                 android:id="@+id/createRecipePreparation"
                 android:layout_height="wrap_content"
-                android:hint="@string/wRecipeName"
+                android:hint="@string/wRecipePreparation"
                 android:maxHeight="150dp"
                 android:minHeight="55dp"
                 app:layout_constraintTop_toBottomOf="@id/createRecipePreparationLabel"
@@ -121,6 +120,7 @@
                 tools:ignore="MissingConstraints" />
 
             <Button
+                android:id="@+id/createRecipeSaveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/addRecipe"

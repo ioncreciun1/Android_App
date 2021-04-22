@@ -1,16 +1,25 @@
 package com.example.app.Model;
 
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-public class RecipeCard {
-    @PrimaryKey
+@Entity(tableName="Recipe")
+public class Recipe {
+    @PrimaryKey(autoGenerate = true)
     private int Id_recipe;
     private String title;
     private String description;
+    private String preparation;
 
-    public RecipeCard(String title, String description) {
+    public Recipe(int id, String title, String description, String preparation) {
+        this.Id_recipe = id;
         this.title = title;
         this.description = description;
+        this.preparation = preparation;
+    }
+
+    public Recipe() {
+
     }
 
     public int getId_recipe() {
@@ -18,7 +27,7 @@ public class RecipeCard {
     }
 
     public void setId_recipe(int id_recipe) {
-        Id_recipe = id_recipe;
+        this.Id_recipe = id_recipe;
     }
 
     public String getTitle() {
@@ -35,5 +44,13 @@ public class RecipeCard {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPreparation() {
+        return preparation;
+    }
+
+    public void setPreparation(String preparation) {
+        this.preparation = preparation;
     }
 }

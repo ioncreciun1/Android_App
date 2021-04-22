@@ -4,13 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.app.Model.ShoppingItem;
 import com.example.app.Repository.ShoppingListRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListFragmentViewModel extends AndroidViewModel {
@@ -36,5 +33,10 @@ public class ShoppingListFragmentViewModel extends AndroidViewModel {
     public void remove(final ShoppingItem item)
     {
         repository.remove(item);
+    }
+
+    public void updateStatus(int status,int id)
+    {
+        repository.updateStatus(status, id);
     }
 }

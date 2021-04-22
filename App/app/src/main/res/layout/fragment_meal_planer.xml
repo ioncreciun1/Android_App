@@ -8,6 +8,7 @@
 
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/WeekTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="scrollable">
@@ -43,4 +44,11 @@
             android:layout_height="wrap_content"
             android:text="Sunday" />
     </com.google.android.material.tabs.TabLayout>
+
+    <FrameLayout
+        android:id="@+id/MealPlanerRecipesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        />
 </FrameLayout>

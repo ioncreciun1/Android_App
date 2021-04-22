@@ -3,10 +3,8 @@ package com.example.app.View;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,16 +12,25 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app.Adapters.RecipeCardListAdapter;
 import com.example.app.Adapters.ShoppingListAdapter;
 import com.example.app.R;
 
 public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private ShoppingListAdapter adapter;
+    private ShoppingListAdapter shoppingListAdapter;
+    private RecipeCardListAdapter recipeCardListAdapter;
     public RecycleItemTouchHelper(ShoppingListAdapter adapter)
     {
         super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
-        this.adapter = adapter;
+        this.shoppingListAdapter = adapter;
+        recipeCardListAdapter = null;
+    }
+    public RecycleItemTouchHelper(RecipeCardListAdapter adapter)
+    {
+        super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
+        this.shoppingListAdapter = null;
+        recipeCardListAdapter = adapter;
     }
 
     @Override
@@ -31,14 +38,14 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         return false;
     }
 
-    @Override
-    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+    public void swipeRecipeCardList(RecipeCardListAdapter adapter,RecyclerView.ViewHolder viewHolder,int direction)
+    {
         final int position = viewHolder.getAdapterPosition();
         if(direction == ItemTouchHelper.LEFT)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
-            builder.setTitle("Delete Task");
-            builder.setMessage("Are you sure you want to delete this shopping Item");
+            builder.setTitle("Delete Recipe");
+            builder.setMessage("Are you sure you want to delete this Recipe");
             builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -56,9 +63,47 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         }
         else
         {
-        adapter.EditItem(position);
+            adapter.editItem(position);
         }
 
+    }
+    public void swipeShoppingItem(ShoppingListAdapter adapter, RecyclerView.ViewHolder viewHolder,int direction)
+    {
+        final int position = viewHolder.getAdapterPosition();
+        if(direction == ItemTouchHelper.LEFT)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(shoppingListAdapter.getContext());
+            builder.setTitle("Delete Task");
+            builder.setMessage("Are you sure you want to delete this shopping Item");
+            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    shoppingListAdapter.deleteItem(position);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    shoppingListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                }
+            });
+            AlertDialog dialog = builder.create();
+            builder.show();
+        }
+        else
+        {
+            shoppingListAdapter.EditItem(position);
+        }
+
+
+    }
+    @Override
+    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+       if(recipeCardListAdapter!=null)
+       {
+           swipeRecipeCardList(recipeCardListAdapter,viewHolder,direction);
+       }
+       else swipeShoppingItem(shoppingListAdapter,viewHolder,direction);
     }
 
     @Override
@@ -70,13 +115,34 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         int backgroundCornerOffset = 20;
         if (dX > 0
         ) {
-            icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_edit_24);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.CaribbeanGreen));
+            if(shoppingListAdapter == null)
+            {
+                icon = ContextCompat.getDrawable(recipeCardListAdapter.getContext(), R.drawable.ic_baseline_edit_24);
+                background = new ColorDrawable(ContextCompat.getColor(recipeCardListAdapter.getContext(),R.color.CaribbeanGreen));
+
+            }
+            else
+            {
+                icon = ContextCompat.getDrawable(shoppingListAdapter.getContext(), R.drawable.ic_baseline_edit_24);
+                background = new ColorDrawable(ContextCompat.getColor(shoppingListAdapter.getContext(),R.color.CaribbeanGreen));
+            }
+
         }
         else
         {
-            icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(),R.color.red));
+            if(shoppingListAdapter == null)
+            {
+                icon = ContextCompat.getDrawable(recipeCardListAdapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
+                background = new ColorDrawable(ContextCompat.getColor(recipeCardListAdapter.getContext(),R.color.red));
+
+            }
+            else
+            {
+                icon = ContextCompat.getDrawable(shoppingListAdapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
+                background = new ColorDrawable(ContextCompat.getColor(shoppingListAdapter.getContext(),R.color.red));
+
+            }
+
         }
         int iconMargin = (ItemView.getHeight()-icon.getIntrinsicHeight())/2;
         int iconTop = ItemView.getTop()+ iconMargin;

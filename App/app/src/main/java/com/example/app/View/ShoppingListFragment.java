@@ -2,20 +2,15 @@ package com.example.app.View;
 
 
 import android.os.Bundle;
-
-
-import androidx.fragment.app.Fragment;
-
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.Adapters.ShoppingListAdapter;
 import com.example.app.Model.ShoppingItem;
@@ -33,6 +28,16 @@ public class ShoppingListFragment extends Fragment {
     private ShoppingListFragmentViewModel viewModel;
     public ShoppingListFragment() {
         // Required empty public constructor
+    }
+
+    public void updateStatus(int status,int id)
+    {
+        viewModel.updateStatus(status, id);
+    }
+
+    public void remove(ShoppingItem item)
+    {
+        viewModel.remove(item);
     }
 
 

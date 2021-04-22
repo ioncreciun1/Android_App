@@ -1,71 +1,137 @@
 package com.example.app.View;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.Adapters.IngredientListAdapter;
-import com.example.app.Model.Ingredient;
+import com.example.app.Model.Recipe;
+import com.example.app.Model.RecipeWithIngredients;
 import com.example.app.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.app.ViewModel.CreateRecipeActivityViewModel;
 
 public class CreateRecipeActivity extends AppCompatActivity
 {
-    private Button button ;
+    private Button IngredientAddButton ;
     private Toolbar toolbar;
     private RecyclerView ingredientList;
     private IngredientListAdapter adapter;
-    private List<Ingredient> items;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.i("TAG","Created");
-        setContentView(R.layout.activity_create_recipe);
+    private Button saveRecipeButton;
+    private EditText recipeTitle;
+    private EditText recipeDescription;
+    private EditText recipePreparation;
+    private CreateRecipeActivityViewModel viewModel;
 
+    private void initiate()
+    {
+        viewModel = new ViewModelProvider(this).get(CreateRecipeActivityViewModel.class);
+        viewModel.clearList();
         toolbar = findViewById(R.id.createRecipeToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        button = findViewById(R.id.add_recipe_ingredient_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        recipeTitle = findViewById(R.id.createRecipeTitle);
+        recipeDescription = findViewById(R.id.createRecipeDescription);
+        recipePreparation = findViewById(R.id.createRecipePreparation);
+        saveRecipeButton = findViewById(R.id.createRecipeSaveButton);
+        IngredientAddButton = findViewById(R.id.add_recipe_ingredient_button);
+        IngredientAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IngredientDialog dialog = new IngredientDialog();
                 dialog.show(getSupportFragmentManager(),"Ingredient Dialog");
             }
         });
-        Ingredient ingredient = new Ingredient("1 tsp Sugar");
-        Ingredient ingredient1 = new Ingredient("One cup of tea");
-        Ingredient ingredient3 = new Ingredient("Sweets");
+
         ingredientList = findViewById(R.id.ingredient_list_create_recipe);
         ingredientList.hasFixedSize();
         ingredientList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new IngredientListAdapter(this);
         ingredientList.setAdapter(adapter);
-        items= new ArrayList<>();
-        items.add(ingredient);
-        items.add(ingredient1);
-        items.add(ingredient3);
-        items.add(ingredient);
-        items.add(ingredient1);
-        items.add(ingredient3);
-        items.add(ingredient);
-        items.add(ingredient1);
-        items.add(ingredient3);
-        items.add(ingredient);
-        items.add(ingredient1);
-        items.add(ingredient3);
-        items.add(ingredient);
-        items.add(ingredient1);
-        items.add(ingredient3);
-        adapter.setItems(items);
-       // Log.i("TAG","ExECUTED");
+        viewModel.getIngredients().observe(this,ingredients -> {
+            adapter.setItems(ingredients);
+        });
+        saveRecipeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkEditButtons())
+                {
+                    Context context = getApplicationContext();
+                    String text = "Insert Required Fields";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast.makeText(context, text, duration).show();
+                }
+                else
+                {
+                    System.out.println("Data Inserted");
+                    Recipe recipe = new Recipe();
+                    recipe.setDescription(recipeDescription.getText().toString());
+                    recipe.setTitle(recipeTitle.getText().toString());
+                    recipe.setPreparation(recipePreparation.getText().toString());
+                   // viewModel.insert(recipe);
+                    viewModel.insertRecipeWithIngredients(recipe,viewModel.getIngredients().getValue());
+
+                    finish();
+                }
+
+            }
+        });
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null)
+        {
+            int id = bundle.getInt("RecipeID");
+            System.out.println("ID IS : " + id);
+            RecipeWithIngredients recipe = viewModel.getRecipe(id);
+
+        }
+
+
+    }
+    @SuppressLint("ResourceAsColor")
+    private boolean checkEditButtons()
+    {
+        boolean check = false;
+        if(recipePreparation.getText().toString().length()==0)
+        {
+            check=true;
+            recipePreparation.setHintTextColor(getResources().getColor(R.color.red));
+            recipePreparation.getBackground().setColorFilter(getResources().getColor(R.color.red),
+                    PorterDuff.Mode.SRC_ATOP);
+            //recipePreparation.setBackgroundTintList(ColorStateList.valueOf(R.color.budGreen));
+
+        }
+        if(recipeDescription.getText().toString().length()==0)
+        {
+            check=true;
+            recipeDescription.setHintTextColor(getResources().getColor(R.color.red));
+            recipeDescription.getBackground().setColorFilter(getResources().getColor(R.color.red),
+                    PorterDuff.Mode.SRC_ATOP);
+        }
+        if(recipeTitle.getText().toString().length()==0) {
+            check = true;
+            recipeTitle.setHintTextColor(getResources().getColor(R.color.red));
+            recipeTitle.getBackground().setColorFilter(getResources().getColor(R.color.red),
+                    PorterDuff.Mode.SRC_ATOP);
+        }
+
+        return check;
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_recipe);
+        initiate();
+
     }
 }

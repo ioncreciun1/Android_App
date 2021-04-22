@@ -20,6 +20,11 @@ public interface ShoppingItemDAO
     @Update
     void Update(ShoppingItem item);
 
+    @Query("Update Shopping_Item " +
+            "set status = :status " +
+            "Where id=:id")
+    void updateStatus(int status,int id);
+
     @Delete
     void Delete(ShoppingItem item);
 

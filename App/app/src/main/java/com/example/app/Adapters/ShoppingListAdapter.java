@@ -1,7 +1,6 @@
 package com.example.app.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +8,12 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.Model.ShoppingItem;
 import com.example.app.R;
-import com.example.app.Repository.ShoppingListRepository;
 import com.example.app.View.ShoppingDialog;
 import com.example.app.View.ShoppingListFragment;
-import com.example.app.ViewModel.ShoppingListFragmentViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,28 +22,30 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     private List<ShoppingItem> items;
     private ShoppingListFragment activity;
-    private ShoppingListFragmentViewModel viewModel;
+   // private ShoppingListFragmentViewModel viewModel;
 
     public ShoppingListAdapter(ShoppingListFragment activity)
     {
         this.activity = activity;
         items = new ArrayList<>();
-        viewModel   = new ViewModelProvider(activity).get(ShoppingListFragmentViewModel.class);
+        //viewModel   = new ViewModelProvider(activity).get(ShoppingListFragmentViewModel.class);
     }
 
     public void onBindViewHolder(ViewHolder holder, int position)
     {
         ShoppingItem item = items.get(position);
-        holder.item.setText(items.get(position).getName());
-        holder.item.setChecked(items.get(position).getStatus()!=0);
+        holder.item.setText(item.getName());
+        holder.item.setChecked(item.getStatus()!=0);
         holder.item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+/*
                     if(isChecked)
-                        item.setStatus(1);
+                        activity.updateStatus(1,item.getId());
                     else
-                        item.setStatus(0);
-                    viewModel.update(item);
+                    {
+                        activity.updateStatus(0,item.getId());
+                    }*/
             }
         });
     }
@@ -73,7 +71,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public void deleteItem(int position)
     {
         ShoppingItem item = items.get(position);
-        viewModel.remove(item);
+        activity.remove(item);
         items.remove(item);
         notifyItemRemoved(position);
     }

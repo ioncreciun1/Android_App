@@ -47,6 +47,14 @@ public class ShoppingListRepository {
             dao.Update(item);
         });
     }
+
+    public void updateStatus(int status,int id)
+    {
+        executorService.execute(()->{
+            dao.updateStatus(status, id);
+        });
+    }
+
     public void remove(ShoppingItem item)
     {
         executorService.execute(()->{
