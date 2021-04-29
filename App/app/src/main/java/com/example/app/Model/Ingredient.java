@@ -1,6 +1,7 @@
 package com.example.app.Model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(
@@ -9,24 +10,33 @@ import androidx.room.PrimaryKey;
 public class Ingredient {
     @PrimaryKey(autoGenerate = true)
     private int Id_ingredient;
-    private int FK_recipe;
+/*    @ForeignKey
+            (       entity = Recipe.class,
+                    parentColumns = "Id_recipe",
+                    childColumns = "FK_recipe"
+            )*/
+    private long FK_recipe;
 
-    public int getFK_recipe() {
+    public long getFK_recipe() {
         return FK_recipe;
     }
 
-    public void setFK_recipe(int FK_recipe) {
+    public void setFK_recipe(long FK_recipe) {
         this.FK_recipe = FK_recipe;
     }
 
-    public Ingredient() {
-    }
+
     private String name;
 
+    public Ingredient() {
+    }
+    @Ignore
     public Ingredient(int id, String name) {
         this.Id_ingredient = id;
         this.name = name;
     }
+
+    @Ignore
     public Ingredient(String name) {
         this.name = name;
     }

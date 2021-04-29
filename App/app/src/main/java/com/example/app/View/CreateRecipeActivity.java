@@ -1,6 +1,5 @@
 package com.example.app.View;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -78,8 +77,12 @@ public class CreateRecipeActivity extends AppCompatActivity
                     recipe.setDescription(recipeDescription.getText().toString());
                     recipe.setTitle(recipeTitle.getText().toString());
                     recipe.setPreparation(recipePreparation.getText().toString());
+
+                    RecipeWithIngredients recipeWithIngredients = new RecipeWithIngredients();
+                    recipeWithIngredients.setRecipe(recipe);
+                    recipeWithIngredients.setIngredients(viewModel.getIngredients().getValue());
                    // viewModel.insert(recipe);
-                    viewModel.insertRecipeWithIngredients(recipe,viewModel.getIngredients().getValue());
+                    viewModel.insertRecipeWithIngredients(recipeWithIngredients);
 
                     finish();
                 }
@@ -92,13 +95,18 @@ public class CreateRecipeActivity extends AppCompatActivity
         {
             int id = bundle.getInt("RecipeID");
             System.out.println("ID IS : " + id);
-            RecipeWithIngredients recipe = viewModel.getRecipe(id);
+            viewModel.getRecipe(id).observe(this,recipeWithIngredients -> {
+                recipeTitle.setText(recipeWithIngredients.getRecipe().getTitle());
+                recipeDescription.setText(recipeWithIngredients.getRecipe().getDescription());
+                recipePreparation.setText(recipeWithIngredients.getRecipe().getPreparation());
+                viewModel.addIngredientList(recipeWithIngredients.getIngredients());
+
+            });
 
         }
 
 
     }
-    @SuppressLint("ResourceAsColor")
     private boolean checkEditButtons()
     {
         boolean check = false;

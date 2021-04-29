@@ -16,6 +16,15 @@
     <string name="wRecipeDescription">Write Recipe Description</string>
     <string name="addRecipe">Save Recipe</string>
     <string name="wRecipePreparation">Write Recipe Preparation</string>
+    <string name="weekDialog">Choose week day:</string>
+
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
+    <string name="Sunday">Sunday</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -46,6 +46,7 @@ public class RecipeFragment extends Fragment {
             adapter.setItems(recipeCards);
         });
 
+
         recipeFAB = root.findViewById(R.id.recipeFAB);
         recipeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,5 +77,11 @@ public class RecipeFragment extends Fragment {
         View root =inflater.inflate(R.layout.fragment_recipe, container, false);
         init(root);
         return root;
+    }
+
+    public void openWeekDaysDialog()
+    {
+        WeekDaysDialog dialog = new WeekDaysDialog();
+        dialog.show(getParentFragmentManager(),"Add Recipe to WeekDay");
     }
 }

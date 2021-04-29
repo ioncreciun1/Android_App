@@ -28,6 +28,7 @@ public interface ShoppingItemDAO
     @Delete
     void Delete(ShoppingItem item);
 
+
     @Query("Select * from Shopping_Item")
     LiveData<List<ShoppingItem>> getAllShoppingItems();
 }

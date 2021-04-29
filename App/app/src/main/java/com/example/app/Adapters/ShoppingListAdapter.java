@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,15 +19,13 @@ import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
 
-    private List<ShoppingItem> items;
-    private ShoppingListFragment activity;
-   // private ShoppingListFragmentViewModel viewModel;
+    private  List<ShoppingItem> items;
+    private  ShoppingListFragment activity;
 
     public ShoppingListAdapter(ShoppingListFragment activity)
     {
         this.activity = activity;
         items = new ArrayList<>();
-        //viewModel   = new ViewModelProvider(activity).get(ShoppingListFragmentViewModel.class);
     }
 
     public void onBindViewHolder(ViewHolder holder, int position)
@@ -36,18 +33,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         ShoppingItem item = items.get(position);
         holder.item.setText(item.getName());
         holder.item.setChecked(item.getStatus()!=0);
-        holder.item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-/*
-                    if(isChecked)
-                        activity.updateStatus(1,item.getId());
-                    else
-                    {
-                        activity.updateStatus(0,item.getId());
-                    }*/
-            }
-        });
     }
 
     public List<ShoppingItem> getItems() {
@@ -94,15 +79,28 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         return new ViewHolder(view);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    public void addToDatabase(boolean isChecked,ShoppingItem item)
+    {
+        activity.updateStatus(isChecked?1:0,item.getId());
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder
     {
         CheckBox item;
+
         ViewHolder(View view)
         {
             super(view);
             item = view.findViewById(R.id.shopping_item_checkbox);
-
-        }
-
+            item.setOnClickListener(v->{
+                CheckBox box = (CheckBox) v;
+                if(((CheckBox) v).isChecked()) {
+                    activity.updateStatus(1,items.get(getAdapterPosition()).getId());
+                }
+                else {
+                    activity.updateStatus(0,items.get(getAdapterPosition()).getId());
+                }
+            });
+                }
     }
 }

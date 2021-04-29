@@ -1,8 +1,10 @@
 package com.example.app.Model;
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 import androidx.room.Relation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,12 +15,20 @@ public class RecipeWithIngredients {
 
     @Relation(
             parentColumn = "Id_recipe",
-            entityColumn = "FK_recipe"
+            entityColumn = "FK_recipe",
+            entity = Ingredient.class
     )
 
-    private List<Ingredient> ingredients;
+    public List<Ingredient> ingredients;
 
+    @Ignore
     public RecipeWithIngredients() {
+        ingredients = new ArrayList<>();
+    }
+
+    public RecipeWithIngredients(Recipe recipe, List<Ingredient> ingredients) {
+        this.recipe = recipe;
+        this.ingredients = ingredients;
     }
 
     public Recipe getRecipe() {

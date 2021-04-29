@@ -14,6 +14,7 @@ import com.example.app.Model.RecipeCard;
 import com.example.app.R;
 import com.example.app.View.CreateRecipeActivity;
 import com.example.app.View.MealPlanerRecipesFragment;
+import com.example.app.View.RecipeActivity;
 import com.example.app.View.RecipeFragment;
 
 import java.util.ArrayList;
@@ -59,6 +60,24 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.label.setText(items.get(position).getTitle());
             holder.description.setText(items.get(position).getDescription());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openItem(position);
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    openDialog(position);
+                    
+                    return false;
+                }
+            });
+    }
+
+    private void openDialog(int position) {
+        activity.openWeekDaysDialog();
     }
 
     @Override
@@ -89,7 +108,7 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
     public void editItem(int position)
     {
         RecipeCard card = items.get(position);
-        Context context = getContext();
+        Context context = activity.getContext();
         Class destination = CreateRecipeActivity.class;
         Intent intent = new Intent(context, destination);
         intent.putExtra("RecipeID",card.getId_recipe());
@@ -103,9 +122,25 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
         }
 
     }
+    public void openItem(int position)
+    {
+        RecipeCard card = items.get(position);
+        Context context = activity.getContext();
+        Class destination = RecipeActivity.class;
+        Intent intent = new Intent(context, destination);
+        intent.putExtra("RecipeID",card.getId_recipe());
+
+        try
+        {
+            activity.startActivity(intent);
+        }catch (NullPointerException e)
+        {
+
+        }
+    }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    public class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView label;
         TextView description;

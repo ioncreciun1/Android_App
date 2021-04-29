@@ -59,6 +59,11 @@ public class RecipeListRepository {
         );
     }
 
+    public RecipeWithIngredients getRecipe() {
+        System.out.println(recipe.getRecipe().getTitle());
+        return recipe;
+    }
+
     public LiveData<List<RecipeWithIngredients>> getItems() {
         return items;
     }
@@ -68,10 +73,10 @@ public class RecipeListRepository {
             dao.Insert(item);
         });
     }
-    public void insertRecipeWithIngredients(Recipe recipe,List<Ingredient> ingredients)
+    public void insertRecipeWithIngredients(RecipeWithIngredients recipeWithIngredients)
     {
         executorService.execute(()->{
-            dao.insertRecipeAndIngredients(recipe,ingredients);
+            dao.insertRecipeAndIngredients(recipeWithIngredients);
         });
     }
     public void update(Recipe item)
@@ -87,10 +92,18 @@ public class RecipeListRepository {
         });
     }
 
-    public RecipeWithIngredients getRecipe(int id) {
-executorService.execute(()->{
+    public LiveData<RecipeWithIngredients> getRecipe(int id) {
+/*executorService.execute(()->{
     recipe = dao.getRecipe(id);
+    System.out.println("Initialized");
+    System.out.println(recipe.getRecipe().getTitle());
 });
-return recipe;
+        System.out.println("Out");*/
+
+        return dao.getRecipe(id);
+    }
+
+    public void addIngredientList(List<Ingredient> list) {
+        ingredients.setValue(list);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.app.Database;
 
+import android.os.Build;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -16,31 +18,44 @@ import com.example.app.Model.RecipeWithIngredients;
 import java.util.List;
 
 @Dao
-public interface RecipeDAO {
+public abstract class RecipeDAO {
     @Insert
-    void Insert(Recipe item);
+    public abstract long Insert(Recipe item);
+
+    @Insert
+    abstract void insertIngredients(List<Ingredient> ingredients);
 
     @Update
-    void Update(Recipe item);
+    public abstract void Update(Recipe item);
 
     @Delete
-    void Delete(Recipe item);
+    public abstract void Delete(Recipe item);
 
     @Query("Select Id_recipe,title,description from Recipe")
-    public LiveData<List<RecipeCard>> getAllRecipeCard();
+    abstract public LiveData<List<RecipeCard>> getAllRecipeCard();
 
     @Query("DELETE from Recipe where Id_recipe = :id")
-    public void deleteRecipeById(int id);
+    abstract public void deleteRecipeById(int id);
 
-    @Insert
-    public void insertRecipeAndIngredients(Recipe recipe,List<Ingredient> ingredients);
+    public void insertRecipeAndIngredients(RecipeWithIngredients recipeWithIngredients)
+    {
+        long id = Insert(recipeWithIngredients.getRecipe());
+        System.out.println("DAO SIZE: " + recipeWithIngredients.getIngredients().size());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            recipeWithIngredients.getIngredients().forEach(ingredient -> {
+                ingredient.setFK_recipe(id);
+                System.out.println("ID : " + id);
+            });
+        }
+        insertIngredients(recipeWithIngredients.getIngredients());
+
+    }
 
     @Transaction
-    @Query("SELECT * FROM Recipe where Id_recipe = :id")
-
-    public RecipeWithIngredients getRecipe(int id);
+    @Query("SELECT * FROM Recipe,Ingredient where Id_recipe = :id and FK_recipe=:id")
+    abstract public LiveData<RecipeWithIngredients> getRecipe(int id);
 
     @Transaction
     @Query("SELECT * FROM Recipe")
-    public LiveData<List<RecipeWithIngredients>> getRecipeWithIngredients();
+    abstract public LiveData<List<RecipeWithIngredients>> getRecipeWithIngredients();
 }

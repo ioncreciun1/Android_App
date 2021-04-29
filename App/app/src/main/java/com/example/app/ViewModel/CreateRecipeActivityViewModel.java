@@ -20,7 +20,10 @@ public class CreateRecipeActivityViewModel extends AndroidViewModel {
 
         repository = RecipeListRepository.getInstance(app);
     }
-
+    public void addIngredientList(List<Ingredient> list)
+    {
+        repository.addIngredientList(list);
+    }
     public void addIngredient(Ingredient ingredient)
     {
         repository.addIngredient(ingredient);
@@ -39,13 +42,21 @@ public class CreateRecipeActivityViewModel extends AndroidViewModel {
         repository.insert(item);
     }
 
-    public void insertRecipeWithIngredients(final Recipe item,List<Ingredient> ingredients)
+    public void insertRecipeWithIngredients(final RecipeWithIngredients recipeWithIngredients)
     {
-        repository.insertRecipeWithIngredients(item, ingredients);
+        System.out.println("VIEW MODEL SIZE");
+        System.out.println(recipeWithIngredients.getIngredients().size());
+        repository.insertRecipeWithIngredients(recipeWithIngredients);
     }
 
-    public RecipeWithIngredients getRecipe(int id)
+    public LiveData<List<RecipeWithIngredients>> getAllRecipes()
     {
+        return repository.getItems();
+    }
+
+    public LiveData<RecipeWithIngredients> getRecipe(int id)
+    {
+
         return repository.getRecipe(id);
     }
     public void update(final Recipe item)
