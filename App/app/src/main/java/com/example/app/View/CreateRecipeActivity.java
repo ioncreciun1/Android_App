@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +65,8 @@ public class CreateRecipeActivity extends AppCompatActivity
         ingredientList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new IngredientListAdapter(this);
         ingredientList.setAdapter(adapter);
+        ItemTouchHelper helper = new ItemTouchHelper(new IngredientsCreateRecycleItemTouchHelper(adapter));
+        helper.attachToRecyclerView(ingredientList);
     }
 
     @SuppressLint("SetTextI18n")
@@ -171,6 +174,12 @@ public class CreateRecipeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
         initiate();
+
+    }
+
+    public void deleteIngredient(int position)
+    {
+        viewModel.deleteIngredient(position);
 
     }
 }

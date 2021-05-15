@@ -72,4 +72,12 @@ public class CreateRecipeActivityViewModel extends AndroidViewModel {
     {
         repository.updateRecipeWithIngredients(recipeWithIngredients);
     }
+
+    public void updateIngredient(int position,String ingredientName) {
+        repository.updateIngredient(position,ingredientName);
+    }
+
+    public void deleteIngredient(int position) {
+        repository.deleteIngredient(position);
+    }
 }

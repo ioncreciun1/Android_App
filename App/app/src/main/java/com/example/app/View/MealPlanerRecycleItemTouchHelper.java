@@ -80,23 +80,17 @@ public class MealPlanerRecycleItemTouchHelper extends ItemTouchHelper.SimpleCall
             int iconMargin = (ItemView.getHeight() - icon.getIntrinsicHeight()) / 2;
             int iconTop = ItemView.getTop() + iconMargin;
             int iconBottom = iconTop + icon.getIntrinsicHeight();
-            if (dX < 0) { // Swiping to the left
+
                 int iconLeft = ItemView.getRight() - iconMargin - icon.getIntrinsicWidth();
                 int iconRight = ItemView.getRight() - iconMargin;
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
                 background.setBounds(ItemView.getRight() + ((int) dX) - backgroundCornerOffset,
                         ItemView.getTop(), ItemView.getRight(), ItemView.getBottom());
-            } else { // view is unSwiped
-                System.out.println("I am here\n");
-                background.setBounds(0, 0, 0, 0);
-            }
+
             background.draw(c);
             icon.draw(c);
 
-        }
-        else {
-            System.out.println("WTF IS HAPPENING");
         }
 
         }

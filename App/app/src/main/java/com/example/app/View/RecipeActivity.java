@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,12 @@ public class RecipeActivity extends AppCompatActivity
         ingredients = findViewById(R.id.ingredient_lists_recipe);
         ingredients.hasFixedSize();
         ingredients.setLayoutManager(new LinearLayoutManager(this));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new IngredientsViewRecipeRecycleItemTouchHelper(adapter));
+        itemTouchHelper.attachToRecyclerView(ingredients);
 
+    }
+
+    public void addToShoppingList(String name) {
+        viewModel.addToShoppingList(name);
     }
 }

@@ -1,9 +1,7 @@
 package com.example.app.Repository;
 
 import android.app.Application;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -101,10 +99,23 @@ public class RecipeListRepository {
         ingredients.setValue(list);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateRecipeWithIngredients(RecipeWithIngredients recipeWithIngredients) {
         executorService.execute(()->{
             dao.updateRecipeWithIngredients(recipeWithIngredients);
         });
+    }
+
+    public void updateIngredient(int position,String ingredientName) {
+        List<Ingredient> list = ingredients.getValue();
+        list.get(position).setName(ingredientName);
+        ingredients.setValue(list);
+
+    }
+
+    public void deleteIngredient(int position)
+    {
+        List<Ingredient> list = ingredients.getValue();
+        list.remove(position);
+        ingredients.setValue(list);
     }
 }

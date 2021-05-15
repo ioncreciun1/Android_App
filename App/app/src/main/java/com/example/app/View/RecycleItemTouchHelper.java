@@ -74,8 +74,9 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         if(direction == ItemTouchHelper.LEFT)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(shoppingListAdapter.getContext());
-            builder.setTitle("Delete Task");
-            builder.setMessage("Are you sure you want to delete this shopping Item");
+            builder.setTitle("Delete Shopping Item");
+
+            builder.setMessage("Are you sure you want to delete " +  shoppingListAdapter.getItems().get(position).getName() + " ?");
             builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
