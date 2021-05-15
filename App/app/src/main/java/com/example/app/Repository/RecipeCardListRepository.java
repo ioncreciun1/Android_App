@@ -58,6 +58,12 @@ public class RecipeCardListRepository {
         });
     }
 
+    public void deleteWeekDayRecipe(int id_recipe,String day) {
+        executorService.execute(()->{
+            dao.deleteWeekDayRecipe(id_recipe,day);
+        });
+    }
+
     public void deleteWeekDayRecipe(int id_recipe) {
         executorService.execute(()->{
             dao.deleteWeekDayRecipe(id_recipe);

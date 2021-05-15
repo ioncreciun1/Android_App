@@ -62,7 +62,9 @@ public class RecipeFragment extends Fragment {
 
     public void deleteItem(int id)
     {
+
         viewModel.deleteRecipe(id);
+        viewModel.deleteWeekDayRecipe(id);
     }
 
     @Override

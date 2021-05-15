@@ -16,18 +16,24 @@ public class MealPlanerFragment extends Fragment {
 
     private TabLayout tabs;
    private MealPlanerRecipesFragment mealPlanerRecipesFragment;
+   private String day;
 
+
+   public String getDay()
+   {
+       return day;
+   }
     private void init(View view)
     {
         mealPlanerRecipesFragment = new MealPlanerRecipesFragment();
         tabs = view.findViewById(R.id.WeekTabLayout);
-
+        day= "Monday";
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.MealPlanerRecipesLayout,mealPlanerRecipesFragment).commit();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mealPlanerRecipesFragment.getRecipesByWeekDay(tab.getText().toString());
-
+                day = tab.getText().toString();
             }
 
             @Override

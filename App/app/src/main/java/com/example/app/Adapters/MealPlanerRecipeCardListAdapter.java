@@ -31,6 +31,7 @@ public class MealPlanerRecipeCardListAdapter extends RecyclerView.Adapter<MealPl
     }
 
 
+
     public List<RecipeCard> getItems() {
         return items;
     }

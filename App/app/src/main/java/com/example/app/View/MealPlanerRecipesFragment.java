@@ -24,6 +24,7 @@ public class MealPlanerRecipesFragment  extends Fragment {
     private MealPlanerRecipeCardListAdapter adapter;
     private List<RecipeCard> list;
     private MealPlanerRecipesFragmentViewModel viewModel;
+    private String day  = "Monday";
     public MealPlanerRecipesFragment()
     {
 
@@ -34,6 +35,7 @@ public class MealPlanerRecipesFragment  extends Fragment {
         viewModel.getRecipesByWeekDayID(day).observe(this,recipeCards -> {
             adapter.setItems(recipeCards);
         });
+        this.day = day;
     }
 
 
@@ -68,6 +70,7 @@ public class MealPlanerRecipesFragment  extends Fragment {
 
     public void deleteItem(int id_recipe)
     {
-        viewModel.deleteRecipe(id_recipe);
+
+        viewModel.deleteRecipe(id_recipe,day);
     }
 }

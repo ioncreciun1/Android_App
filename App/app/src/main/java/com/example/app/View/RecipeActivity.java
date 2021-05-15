@@ -41,9 +41,10 @@ public class RecipeActivity extends AppCompatActivity
         viewModel.getRecipe(id).observe(this,recipeWithIngredients -> {
            adapter.setItems(recipeWithIngredients.getIngredients());
             ingredients.setAdapter(adapter);
-            name.setText(recipeWithIngredients.getRecipe().getTitle());
+           // name.setText(recipeWithIngredients.getRecipe().getTitle());
             preparation.setText(recipeWithIngredients.getRecipe().getPreparation());
             description.setText(recipeWithIngredients.getRecipe().getDescription());
+            toolbar.setTitle(recipeWithIngredients.getRecipe().getTitle());
 
         });
     }
@@ -52,7 +53,6 @@ public class RecipeActivity extends AppCompatActivity
     {
         viewModel = new ViewModelProvider(this).get(RecipeActivityViewModel.class);
         adapter = new IngredientListAdapter(this);
-        name = findViewById(R.id.recipeName);
         description = findViewById(R.id.recipeDescription);
         preparation = findViewById(R.id.recipePreparation);
         ingredients = findViewById(R.id.ingredient_lists_recipe);

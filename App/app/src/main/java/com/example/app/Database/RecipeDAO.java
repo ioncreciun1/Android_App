@@ -89,4 +89,7 @@ public abstract class RecipeDAO {
     @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe")
     public abstract void deleteWeekDayRecipe(int id_recipe);
 
+    @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe and WeekDay like :day")
+    public abstract void deleteWeekDayRecipe(int id_recipe,String day);
+
 }

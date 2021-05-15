@@ -29,8 +29,8 @@ public class MealPlanerRecipesFragmentViewModel extends AndroidViewModel {
         return repository.getRecipesByWeekDay(weekDay);
     }
 
-    public void deleteRecipe(int id_recipe)
+    public void deleteRecipe(int id_recipe,String day)
     {
-        repository.deleteWeekDayRecipe(id_recipe);
+        repository.deleteWeekDayRecipe(id_recipe,day);
     }
 }

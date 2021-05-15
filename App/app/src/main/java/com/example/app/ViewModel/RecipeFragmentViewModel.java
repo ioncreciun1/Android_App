@@ -27,4 +27,9 @@ public class RecipeFragmentViewModel extends AndroidViewModel {
         repository.deleteItem(id);
     }
 
+    public void deleteWeekDayRecipe(int id)
+    {
+        repository.deleteWeekDayRecipe(id);
+    }
+
 }
