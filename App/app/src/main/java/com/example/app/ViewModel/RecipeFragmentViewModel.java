@@ -17,6 +17,7 @@ public class RecipeFragmentViewModel extends AndroidViewModel {
         super(app);
         repository = RecipeCardListRepository.getInstance(app);
     }
+
     public LiveData<List<RecipeCard>> getAllRecipeCards()
     {
         return repository.getItems();
@@ -25,4 +26,5 @@ public class RecipeFragmentViewModel extends AndroidViewModel {
     {
         repository.deleteItem(id);
     }
+
 }

@@ -4,7 +4,7 @@ import androidx.room.PrimaryKey;
 
 public class RecipeCard {
     @PrimaryKey
-    private int Id_recipe;
+    private int ID_recipe;
     private String title;
     private String description;
 
@@ -13,12 +13,12 @@ public class RecipeCard {
         this.description = description;
     }
 
-    public int getId_recipe() {
-        return Id_recipe;
+    public int getID_recipe() {
+        return ID_recipe;
     }
 
-    public void setId_recipe(int id_recipe) {
-        Id_recipe = id_recipe;
+    public void setID_recipe(int id_recipe) {
+        ID_recipe = id_recipe;
     }
 
     public String getTitle() {

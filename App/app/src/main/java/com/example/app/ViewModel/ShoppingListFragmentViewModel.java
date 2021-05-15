@@ -11,16 +11,19 @@ import com.example.app.Repository.ShoppingListRepository;
 import java.util.List;
 
 public class ShoppingListFragmentViewModel extends AndroidViewModel {
+
     private final ShoppingListRepository repository;
 
     public ShoppingListFragmentViewModel(Application app) {
         super(app);
         repository = ShoppingListRepository.getInstance(app);
     }
+
     public LiveData<List<ShoppingItem>> getAllShoppingItems()
     {
         return repository.getItems();
     }
+
     public void insert(final ShoppingItem item)
     {
         repository.insert(item);
@@ -30,6 +33,7 @@ public class ShoppingListFragmentViewModel extends AndroidViewModel {
     {
         repository.update(item);
     }
+
     public void remove(final ShoppingItem item)
     {
         repository.remove(item);

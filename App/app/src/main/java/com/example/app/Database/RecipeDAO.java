@@ -1,7 +1,5 @@
 package com.example.app.Database;
 
-import android.os.Build;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -14,6 +12,7 @@ import com.example.app.Model.Ingredient;
 import com.example.app.Model.Recipe;
 import com.example.app.Model.RecipeCard;
 import com.example.app.Model.RecipeWithIngredients;
+import com.example.app.Model.WeekDayRecipes;
 
 import java.util.List;
 
@@ -25,37 +24,69 @@ public abstract class RecipeDAO {
     @Insert
     abstract void insertIngredients(List<Ingredient> ingredients);
 
-    @Update
-    public abstract void Update(Recipe item);
 
-    @Delete
-    public abstract void Delete(Recipe item);
 
-    @Query("Select Id_recipe,title,description from Recipe")
-    abstract public LiveData<List<RecipeCard>> getAllRecipeCard();
-
-    @Query("DELETE from Recipe where Id_recipe = :id")
-    abstract public void deleteRecipeById(int id);
+    @Insert
+    public abstract void insertWeekDayRecipes(WeekDayRecipes weekDayRecipe);
 
     public void insertRecipeAndIngredients(RecipeWithIngredients recipeWithIngredients)
     {
         long id = Insert(recipeWithIngredients.getRecipe());
-        System.out.println("DAO SIZE: " + recipeWithIngredients.getIngredients().size());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             recipeWithIngredients.getIngredients().forEach(ingredient -> {
                 ingredient.setFK_recipe(id);
-                System.out.println("ID : " + id);
             });
-        }
         insertIngredients(recipeWithIngredients.getIngredients());
 
     }
 
-    @Transaction
-    @Query("SELECT * FROM Recipe,Ingredient where Id_recipe = :id and FK_recipe=:id")
-    abstract public LiveData<RecipeWithIngredients> getRecipe(int id);
+    @Update
+    public abstract void UpdateRecipe(Recipe item);
+
+    public  void updateRecipeWithIngredients(RecipeWithIngredients recipeWithIngredients)
+    {
+        UpdateRecipe(recipeWithIngredients.getRecipe());
+
+        deleteIngredients(recipeWithIngredients.getRecipe().getID_recipe());
+
+        recipeWithIngredients.getIngredients().forEach(ingredient -> {
+            ingredient.setFK_recipe(recipeWithIngredients.getRecipe().getID_recipe());
+        });
+
+        insertIngredients(recipeWithIngredients.getIngredients());
+
+    }
+
+    @Delete
+    public abstract void Delete(Recipe item);
+
+
+    @Query("DELETE from Recipe where ID_recipe = :id")
+    abstract public void deleteRecipeById(int id);
+
+    @Query("DELETE from Ingredient where FK_recipe LIKE :id")
+    abstract public void deleteIngredients(int id);
+
+
+    @Query("Select ID_recipe,title,description from Recipe")
+    abstract public LiveData<List<RecipeCard>> getAllRecipeCard();
+
+    @Query("SELECT * FROM Recipe where ID_recipe = :id")
+    abstract public Recipe getRecipe(int id);
+
+
+    @Query("SELECT * FROM Ingredient where FK_recipe = :fk_recipe_id")
+    abstract public List<Ingredient> getIngredients(int fk_recipe_id);
 
     @Transaction
-    @Query("SELECT * FROM Recipe")
-    abstract public LiveData<List<RecipeWithIngredients>> getRecipeWithIngredients();
+    @Query("SELECT * FROM Recipe,Ingredient where ID_recipe = :id and FK_recipe = :id")
+    abstract public LiveData<RecipeWithIngredients> getRecipeWithIngredients(int id);
+
+
+    @Query("Select r.ID_recipe,r.title,r.description from WeekDay_Recipe as WDR inner join Recipe r on r.ID_recipe = WDR.FK_ID_recipe" +
+            " where WDR.WeekDay = :weekDay")
+    abstract public LiveData<List<RecipeCard>> getRecipesByWeekDay(String weekDay);
+
+    @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe")
+    public abstract void deleteWeekDayRecipe(int id_recipe);
+
 }

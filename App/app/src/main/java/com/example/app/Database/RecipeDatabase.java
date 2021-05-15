@@ -8,8 +8,9 @@ import androidx.room.RoomDatabase;
 
 import com.example.app.Model.Ingredient;
 import com.example.app.Model.Recipe;
+import com.example.app.Model.WeekDayRecipes;
 
-@Database(entities = {Recipe.class, Ingredient.class}, version = 7)
+@Database(entities = {Recipe.class, Ingredient.class, WeekDayRecipes.class}, version = 11)
 public abstract class RecipeDatabase extends RoomDatabase {
     private static RecipeDatabase instance;
     public abstract RecipeDAO dao();

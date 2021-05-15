@@ -10,11 +10,7 @@ import androidx.room.PrimaryKey;
 public class Ingredient {
     @PrimaryKey(autoGenerate = true)
     private int Id_ingredient;
-/*    @ForeignKey
-            (       entity = Recipe.class,
-                    parentColumns = "Id_recipe",
-                    childColumns = "FK_recipe"
-            )*/
+
     private long FK_recipe;
 
     public long getFK_recipe() {
@@ -28,7 +24,9 @@ public class Ingredient {
 
     private String name;
 
-    public Ingredient() {
+    public Ingredient()
+    {
+
     }
     @Ignore
     public Ingredient(int id, String name) {

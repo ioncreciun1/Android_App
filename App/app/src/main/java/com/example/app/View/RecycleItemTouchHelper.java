@@ -12,25 +12,36 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app.Adapters.MealPlanerRecipeCardListAdapter;
 import com.example.app.Adapters.RecipeCardListAdapter;
 import com.example.app.Adapters.ShoppingListAdapter;
 import com.example.app.R;
 
 public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private ShoppingListAdapter shoppingListAdapter;
-    private RecipeCardListAdapter recipeCardListAdapter;
+    private final ShoppingListAdapter shoppingListAdapter;
+    private final RecipeCardListAdapter recipeCardListAdapter;
+    private final MealPlanerRecipeCardListAdapter mealPlanerRecipeCardListAdapter;
     public RecycleItemTouchHelper(ShoppingListAdapter adapter)
     {
         super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
         this.shoppingListAdapter = adapter;
         recipeCardListAdapter = null;
+        mealPlanerRecipeCardListAdapter = null;
+    }
+    public RecycleItemTouchHelper(MealPlanerRecipeCardListAdapter mealPlanerRecipeCardListAdapter)
+    {
+        super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
+        this.mealPlanerRecipeCardListAdapter = mealPlanerRecipeCardListAdapter;
+        recipeCardListAdapter = null;
+        shoppingListAdapter = null;
     }
     public RecycleItemTouchHelper(RecipeCardListAdapter adapter)
     {
         super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
         this.shoppingListAdapter = null;
         recipeCardListAdapter = adapter;
+        mealPlanerRecipeCardListAdapter = null;
     }
 
     @Override
@@ -103,69 +114,105 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
        {
            swipeRecipeCardList(recipeCardListAdapter,viewHolder,direction);
        }
-       else swipeShoppingItem(shoppingListAdapter,viewHolder,direction);
+       else if(shoppingListAdapter!=null) {
+           swipeShoppingItem(shoppingListAdapter, viewHolder, direction);
+       }
+       else swipeMealPlanerRecipe(mealPlanerRecipeCardListAdapter,viewHolder,direction);
+    }
+
+    private void swipeMealPlanerRecipe(MealPlanerRecipeCardListAdapter mealPlanerRecipeCardListAdapter, RecyclerView.ViewHolder viewHolder, int direction) {
+        final int position = viewHolder.getAdapterPosition();
+        if(direction == ItemTouchHelper.LEFT)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mealPlanerRecipeCardListAdapter.getContext());
+            builder.setTitle("Delete Task");
+            builder.setMessage("Are you sure you want to delete this shopping Item");
+            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mealPlanerRecipeCardListAdapter.deleteItem(position);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mealPlanerRecipeCardListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        Drawable icon;
-        ColorDrawable background;
+        Drawable icon = null;
+        ColorDrawable background = null;
         View ItemView = viewHolder.itemView;
         int backgroundCornerOffset = 20;
         if (dX > 0
         ) {
-            if(shoppingListAdapter == null)
+            if(recipeCardListAdapter != null)
             {
                 icon = ContextCompat.getDrawable(recipeCardListAdapter.getContext(), R.drawable.ic_baseline_edit_24);
                 background = new ColorDrawable(ContextCompat.getColor(recipeCardListAdapter.getContext(),R.color.CaribbeanGreen));
 
             }
-            else
+            else if(shoppingListAdapter!=null)
             {
                 icon = ContextCompat.getDrawable(shoppingListAdapter.getContext(), R.drawable.ic_baseline_edit_24);
                 background = new ColorDrawable(ContextCompat.getColor(shoppingListAdapter.getContext(),R.color.CaribbeanGreen));
+            }
+            else {
+
             }
 
         }
         else
         {
-            if(shoppingListAdapter == null)
+            if(recipeCardListAdapter != null)
             {
                 icon = ContextCompat.getDrawable(recipeCardListAdapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
                 background = new ColorDrawable(ContextCompat.getColor(recipeCardListAdapter.getContext(),R.color.red));
 
             }
-            else
+            else if (shoppingListAdapter != null)
             {
                 icon = ContextCompat.getDrawable(shoppingListAdapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
                 background = new ColorDrawable(ContextCompat.getColor(shoppingListAdapter.getContext(),R.color.red));
 
             }
+            else {
+                icon = ContextCompat.getDrawable(mealPlanerRecipeCardListAdapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
+                background = new ColorDrawable(ContextCompat.getColor(mealPlanerRecipeCardListAdapter.getContext(),R.color.red));
+            }
 
         }
-        int iconMargin = (ItemView.getHeight()-icon.getIntrinsicHeight())/2;
-        int iconTop = ItemView.getTop()+ iconMargin;
-        int iconBottom = iconTop+icon.getIntrinsicHeight();
-        if (dX > 0) { // Swiping to the right
-            int iconLeft = ItemView.getLeft() + iconMargin;
-            int iconRight = ItemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
-            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+        if(icon!=null) {
+            int iconMargin = (ItemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+            int iconTop = ItemView.getTop() + iconMargin;
+            int iconBottom = iconTop + icon.getIntrinsicHeight();
+            if (dX > 0) { // Swiping to the right
+                int iconLeft = ItemView.getLeft() + iconMargin;
+                int iconRight = ItemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-            background.setBounds(ItemView.getLeft(), ItemView.getTop(),
-                    ItemView.getLeft() + ((int) dX) + backgroundCornerOffset, ItemView.getBottom());
-        } else if (dX < 0) { // Swiping to the left
-            int iconLeft = ItemView.getRight() - iconMargin - icon.getIntrinsicWidth();
-            int iconRight = ItemView.getRight() - iconMargin;
-            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                background.setBounds(ItemView.getLeft(), ItemView.getTop(),
+                        ItemView.getLeft() + ((int) dX) + backgroundCornerOffset, ItemView.getBottom());
+            } else if (dX < 0) { // Swiping to the left
+                int iconLeft = ItemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+                int iconRight = ItemView.getRight() - iconMargin;
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-            background.setBounds(ItemView.getRight() + ((int) dX) - backgroundCornerOffset,
-                    ItemView.getTop(), ItemView.getRight(), ItemView.getBottom());
-        } else { // view is unSwiped
-            background.setBounds(0, 0, 0, 0);
+                background.setBounds(ItemView.getRight() + ((int) dX) - backgroundCornerOffset,
+                        ItemView.getTop(), ItemView.getRight(), ItemView.getBottom());
+            } else { // view is unSwiped
+                background.setBounds(0, 0, 0, 0);
+            }
+
+            background.draw(c);
+            icon.draw(c);
         }
-
-        background.draw(c);
-        icon.draw(c);
     }
 }

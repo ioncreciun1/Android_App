@@ -27,7 +27,7 @@ public class ShoppingListFragment extends Fragment {
     private FloatingActionButton fabButton;
     private ShoppingListFragmentViewModel viewModel;
     public ShoppingListFragment() {
-        // Required empty public constructor
+
     }
 
     public void updateStatus(int status,int id)
@@ -53,6 +53,19 @@ public class ShoppingListFragment extends Fragment {
         viewModel.getAllShoppingItems().observe(getViewLifecycleOwner(),shoppingItems -> {
             adapter.setItems(shoppingItems);
         });
+
+        //FLOATING BUTTON
+        fabButton = root.findViewById(R.id.fab);
+        fabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShoppingDialog dialog = new ShoppingDialog();
+                dialog.show(getChildFragmentManager(),"Add Item");
+            }
+        });
+
+
+        //Used for swipe
         ItemTouchHelper helper = new ItemTouchHelper(new RecycleItemTouchHelper(adapter));
         helper.attachToRecyclerView(shoppingList);
     }
@@ -69,14 +82,6 @@ public class ShoppingListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_shopping_list, container,false);
-        fabButton = root.findViewById(R.id.fab);
-        fabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShoppingDialog dialog = new ShoppingDialog();
-                dialog.show(getChildFragmentManager(),"Add Item");
-            }
-        });
         init(root);
         return  root;
     }

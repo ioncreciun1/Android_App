@@ -13,21 +13,25 @@ import com.example.app.Repository.RecipeListRepository;
 import java.util.List;
 
 public class CreateRecipeActivityViewModel extends AndroidViewModel {
+    
     private final RecipeListRepository repository;
 
     public CreateRecipeActivityViewModel(Application app) {
         super(app);
 
         repository = RecipeListRepository.getInstance(app);
+
     }
     public void addIngredientList(List<Ingredient> list)
     {
         repository.addIngredientList(list);
     }
+
     public void addIngredient(Ingredient ingredient)
     {
         repository.addIngredient(ingredient);
     }
+
     public void clearList()
     {
         repository.clearList();
@@ -37,6 +41,7 @@ public class CreateRecipeActivityViewModel extends AndroidViewModel {
     {
         return repository.getIngredients();
     }
+
     public void insert(final Recipe item)
     {
         repository.insert(item);
@@ -44,14 +49,7 @@ public class CreateRecipeActivityViewModel extends AndroidViewModel {
 
     public void insertRecipeWithIngredients(final RecipeWithIngredients recipeWithIngredients)
     {
-        System.out.println("VIEW MODEL SIZE");
-        System.out.println(recipeWithIngredients.getIngredients().size());
         repository.insertRecipeWithIngredients(recipeWithIngredients);
-    }
-
-    public LiveData<List<RecipeWithIngredients>> getAllRecipes()
-    {
-        return repository.getItems();
     }
 
     public LiveData<RecipeWithIngredients> getRecipe(int id)
@@ -63,8 +61,15 @@ public class CreateRecipeActivityViewModel extends AndroidViewModel {
     {
         repository.update(item);
     }
+
     public void remove(final Recipe item)
     {
         repository.remove(item);
+    }
+
+
+    public void updateRecipeWithIngredients(RecipeWithIngredients recipeWithIngredients)
+    {
+        repository.updateRecipeWithIngredients(recipeWithIngredients);
     }
 }

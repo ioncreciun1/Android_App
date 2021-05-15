@@ -14,12 +14,12 @@ public class RecipeWithIngredients {
     private Recipe recipe;
 
     @Relation(
-            parentColumn = "Id_recipe",
+            parentColumn = "ID_recipe",
             entityColumn = "FK_recipe",
             entity = Ingredient.class
     )
 
-    public List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
     @Ignore
     public RecipeWithIngredients() {
@@ -28,7 +28,15 @@ public class RecipeWithIngredients {
 
     public RecipeWithIngredients(Recipe recipe, List<Ingredient> ingredients) {
         this.recipe = recipe;
-        this.ingredients = ingredients;
+        if(ingredients.size()==0)
+        {
+            this.ingredients = new ArrayList<>();
+        }
+        else
+        {
+            this.ingredients = ingredients;
+        }
+
     }
 
     public Recipe getRecipe() {

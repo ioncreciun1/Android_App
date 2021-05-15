@@ -39,7 +39,7 @@ public class RecipeActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt("RecipeID");
         viewModel.getRecipe(id).observe(this,recipeWithIngredients -> {
-            adapter.setItems(recipeWithIngredients.getIngredients());
+           adapter.setItems(recipeWithIngredients.getIngredients());
             ingredients.setAdapter(adapter);
             name.setText(recipeWithIngredients.getRecipe().getTitle());
             preparation.setText(recipeWithIngredients.getRecipe().getPreparation());

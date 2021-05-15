@@ -1,6 +1,7 @@
+
 package com.example.app.Adapters;
 
-import android.content.Context;
+        import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,21 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.Model.RecipeCard;
 import com.example.app.R;
-import com.example.app.View.CreateRecipeActivity;
+import com.example.app.View.MealPlanerRecipesFragment;
 import com.example.app.View.RecipeActivity;
-import com.example.app.View.RecipeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAdapter.ViewHolder> {
+public class MealPlanerRecipeCardListAdapter extends RecyclerView.Adapter<MealPlanerRecipeCardListAdapter.ViewHolder> {
     private List<RecipeCard> items;
-    private final RecipeFragment activity;
-    public RecipeCardListAdapter(RecipeFragment activity)
+    private final MealPlanerRecipesFragment activity1;
+
+
+    public MealPlanerRecipeCardListAdapter(MealPlanerRecipesFragment activity)
     {
-        this.activity = activity;
+        this.activity1 = activity;
         items = new ArrayList<>();
     }
+
 
     public List<RecipeCard> getItems() {
         return items;
@@ -47,36 +50,20 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.label.setText(items.get(position).getTitle());
-            holder.description.setText(items.get(position).getDescription());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openItem(position);
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    RecipeCard card = items.get(position);
-                    openDialog(card.getID_recipe());
-                    return false;
-                }
-            });
+        holder.label.setText(items.get(position).getTitle());
+        holder.description.setText(items.get(position).getDescription());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openItem(position);
+            }
+        });
     }
 
-    private void openDialog(int id) {
-            activity.openWeekDaysDialog(id);
-    }
 
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    public Context getContext()
-    {
-        return activity.getContext();
     }
 
     public void deleteItem(int position)
@@ -84,7 +71,7 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
         RecipeCard card = items.get(position);
         try
         {
-            activity.deleteItem(card.getID_recipe());
+            activity1.deleteItem(card.getID_recipe());
         }catch (NullPointerException ignored)
         {
             System.out.println("Item not Deleted\n");
@@ -92,38 +79,27 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
         items.remove(position);
 
     }
-    public void editItem(int position)
-    {
-        RecipeCard card = items.get(position);
-        Context context = activity.getContext();
-        Class destination = CreateRecipeActivity.class;
-        Intent intent = new Intent(context, destination);
-        intent.putExtra("RecipeID",card.getID_recipe());
 
-        try
-        {
-            activity.startActivity(intent);
-        }catch (NullPointerException e)
-        {
-            System.out.println("Activity Not Started\n");
-        }
-
-    }
     public void openItem(int position)
     {
         RecipeCard card = items.get(position);
-        Context context = activity.getContext();
+
+          Context  context = activity1.getContext();
         Class destination = RecipeActivity.class;
         Intent intent = new Intent(context, destination);
         intent.putExtra("RecipeID",card.getID_recipe());
 
         try
         {
-                activity.startActivity(intent);
+                activity1.startActivity(intent);
         }catch (NullPointerException e)
         {
             System.out.println("Activity Not started  on open\n");
         }
+    }
+
+    public Context getContext() {
+        return activity1.getContext();
     }
 
 

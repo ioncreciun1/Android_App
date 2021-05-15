@@ -21,11 +21,11 @@ public class MealPlanerFragment extends Fragment {
     {
         mealPlanerRecipesFragment = new MealPlanerRecipesFragment();
         tabs = view.findViewById(R.id.WeekTabLayout);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.MealPlanerRecipesLayout,mealPlanerRecipesFragment).commit();
+
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.MealPlanerRecipesLayout,mealPlanerRecipesFragment).commit();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 mealPlanerRecipesFragment.getRecipesByWeekDay(tab.getText().toString());
 
             }
@@ -40,13 +40,14 @@ public class MealPlanerFragment extends Fragment {
 
             }
         });
+        //mealPlanerRecipesFragment.getRecipesByWeekDay("Monday");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meal_planer, container, false);
         init(view);
-        System.out.println("Created Planer");
+
         return view;
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
 
     private  List<ShoppingItem> items;
-    private  ShoppingListFragment activity;
+    private final ShoppingListFragment activity;
 
     public ShoppingListAdapter(ShoppingListFragment activity)
     {
@@ -38,6 +38,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public List<ShoppingItem> getItems() {
         return items;
     }
+
     public Context getContext()
     {
         return activity.getContext();
@@ -60,6 +61,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         items.remove(item);
         notifyItemRemoved(position);
     }
+
     public void EditItem(int position)
     {
         ShoppingItem item = items.get(position);
@@ -72,6 +74,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         dialog.show(activity.getParentFragmentManager(),"Text");
         notifyItemChanged(position);
     }
+
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());

@@ -53,7 +53,6 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.i("TAG","BINDING");
         holder.ingredient.setText(items.get(position).getName());
     }
 

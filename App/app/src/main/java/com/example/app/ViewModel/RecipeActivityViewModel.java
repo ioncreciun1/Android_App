@@ -10,6 +10,7 @@ import com.example.app.Model.RecipeWithIngredients;
 import com.example.app.Repository.RecipeListRepository;
 
 public class RecipeActivityViewModel extends AndroidViewModel  {
+
     private final RecipeListRepository repository;
 
     public RecipeActivityViewModel(@NonNull Application application) {

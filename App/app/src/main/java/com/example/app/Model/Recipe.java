@@ -1,18 +1,20 @@
 package com.example.app.Model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName="Recipe")
 public class Recipe {
     @PrimaryKey(autoGenerate = true)
-    private int Id_recipe;
+    private int ID_recipe;
     private String title;
     private String description;
     private String preparation;
 
+    @Ignore
     public Recipe(int id, String title, String description, String preparation) {
-        this.Id_recipe = id;
+        this.ID_recipe = id;
         this.title = title;
         this.description = description;
         this.preparation = preparation;
@@ -22,12 +24,12 @@ public class Recipe {
 
     }
 
-    public int getId_recipe() {
-        return Id_recipe;
+    public int getID_recipe() {
+        return ID_recipe;
     }
 
-    public void setId_recipe(int id_recipe) {
-        this.Id_recipe = id_recipe;
+    public void setID_recipe(int id_recipe) {
+        this.ID_recipe = id_recipe;
     }
 
     public String getTitle() {

@@ -1,7 +1,9 @@
 package com.example.app.Repository;
 
 import android.app.Application;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -19,15 +21,17 @@ import java.util.concurrent.Executors;
 public class RecipeListRepository {
     private static RecipeListRepository instance;
     private final RecipeDAO dao;
-    private final LiveData<List<RecipeWithIngredients>> items;
+
     private final ExecutorService executorService;
+
     private MutableLiveData<List<Ingredient>> ingredients;
+
     private RecipeWithIngredients recipe;
 
     private RecipeListRepository(Application application) {
         RecipeDatabase database = RecipeDatabase.getInstance(application);
         dao = database.dao();
-        items = dao.getRecipeWithIngredients();
+       // items = dao.getRecipeWithIngredients();
         ingredients = new MutableLiveData<>();
         List<Ingredient> newIngredients = new ArrayList<>();
         ingredients.setValue(newIngredients);
@@ -64,9 +68,6 @@ public class RecipeListRepository {
         return recipe;
     }
 
-    public LiveData<List<RecipeWithIngredients>> getItems() {
-        return items;
-    }
     public void insert(Recipe item)
     {
         executorService.execute(()->{
@@ -82,7 +83,7 @@ public class RecipeListRepository {
     public void update(Recipe item)
     {
         executorService.execute(()->{
-            dao.Update(item);
+            dao.UpdateRecipe(item);
         });
     }
     public void remove(Recipe item)
@@ -93,17 +94,17 @@ public class RecipeListRepository {
     }
 
     public LiveData<RecipeWithIngredients> getRecipe(int id) {
-/*executorService.execute(()->{
-    recipe = dao.getRecipe(id);
-    System.out.println("Initialized");
-    System.out.println(recipe.getRecipe().getTitle());
-});
-        System.out.println("Out");*/
-
-        return dao.getRecipe(id);
+        return dao.getRecipeWithIngredients(id);
     }
 
     public void addIngredientList(List<Ingredient> list) {
         ingredients.setValue(list);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateRecipeWithIngredients(RecipeWithIngredients recipeWithIngredients) {
+        executorService.execute(()->{
+            dao.updateRecipeWithIngredients(recipeWithIngredients);
+        });
     }
 }

@@ -27,10 +27,6 @@ public class RecipeFragment extends Fragment {
     private RecipeFragmentViewModel viewModel;
 
 
-    private void initialiseData()
-    {
-
-    }
 
     private void init(View root)
     {
@@ -58,16 +54,15 @@ public class RecipeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
         ItemTouchHelper helper = new ItemTouchHelper(new RecycleItemTouchHelper(adapter));
         helper.attachToRecyclerView(recipeList);
     }
+
     public void deleteItem(int id)
     {
         viewModel.deleteRecipe(id);
-    }
-    public void editItem(int position)
-    {
-
     }
 
     @Override
@@ -79,9 +74,13 @@ public class RecipeFragment extends Fragment {
         return root;
     }
 
-    public void openWeekDaysDialog()
+    public void openWeekDaysDialog(int id)
     {
+        Bundle bundle = new Bundle();
+        bundle.putInt("Recipe_ID",id);
         WeekDaysDialog dialog = new WeekDaysDialog();
+        dialog.setArguments(bundle);
         dialog.show(getParentFragmentManager(),"Add Recipe to WeekDay");
     }
+
 }

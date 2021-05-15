@@ -6,20 +6,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app.Adapters.RecipeCardListAdapter;
+import com.example.app.Adapters.MealPlanerRecipeCardListAdapter;
 import com.example.app.Model.RecipeCard;
 import com.example.app.R;
+import com.example.app.ViewModel.MealPlanerRecipesFragmentViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MealPlanerRecipesFragment  extends Fragment {
     private RecyclerView recyclerView;
-    private RecipeCardListAdapter adapter;
+    private MealPlanerRecipeCardListAdapter adapter;
     private List<RecipeCard> list;
+    private MealPlanerRecipesFragmentViewModel viewModel;
     public MealPlanerRecipesFragment()
     {
 
@@ -27,42 +31,29 @@ public class MealPlanerRecipesFragment  extends Fragment {
 
     public void getRecipesByWeekDay(String day)
     {
-        switch (day)
-        {
-            case "Monday":
-                list.clear();
-                list.add(new RecipeCard("Monday","NOW its Monday"));
-                adapter.setItems(list);
-                break;
-            case "Tuesday":
-                list.clear();
-                list.add(new RecipeCard("Tuesday","NOW its Tuesday"));
-                adapter.setItems(list);
-                System.out.println(adapter.getItems().size());
-                System.out.println(recyclerView.getTranslationX());
-
-                break;
-            case "Wednesday": ; break;
-            case "Thursday": ; break;
-            case "Friday": ; break;
-            case "Saturday": ; break;
-            case "Sunday": ; break;
-        }
+        viewModel.getRecipesByWeekDayID(day).observe(this,recipeCards -> {
+            adapter.setItems(recipeCards);
+        });
     }
 
 
     private void init(View view)
     {
+        System.out.println("Initialized");
         list = new ArrayList<>();
         list.clear();
-        list.add(new RecipeCard("Monday","NOW its Monday"));
-
-        adapter = new RecipeCardListAdapter(this);
-        adapter.setItems(list);
+        viewModel = new ViewModelProvider(this).get(MealPlanerRecipesFragmentViewModel.class);
+        viewModel.getRecipesByWeekDayID("Monday").observe(getViewLifecycleOwner(),recipeCards -> {
+            adapter.setItems(recipeCards);
+        });
+        adapter = new MealPlanerRecipeCardListAdapter(this);
         recyclerView = view.findViewById(R.id.weekDaysRecipesRecycleView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper helper = new ItemTouchHelper(new MealPlanerRecycleItemTouchHelper(adapter));
+        helper.attachToRecyclerView(recyclerView);
 
     }
 
@@ -73,5 +64,10 @@ public class MealPlanerRecipesFragment  extends Fragment {
         View root =inflater.inflate(R.layout.fragment_recipe_card_list, container, false);
         init(root);
         return root;
+    }
+
+    public void deleteItem(int id_recipe)
+    {
+        viewModel.deleteRecipe(id_recipe);
     }
 }
