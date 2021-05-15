@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app.Adapters.MealPlanerRecipeCardListAdapter;
 import com.example.app.Adapters.RecipeCardListAdapter;
 import com.example.app.Adapters.ShoppingListAdapter;
 import com.example.app.R;
@@ -21,27 +20,17 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     private final ShoppingListAdapter shoppingListAdapter;
     private final RecipeCardListAdapter recipeCardListAdapter;
-    private final MealPlanerRecipeCardListAdapter mealPlanerRecipeCardListAdapter;
     public RecycleItemTouchHelper(ShoppingListAdapter adapter)
     {
         super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
         this.shoppingListAdapter = adapter;
         recipeCardListAdapter = null;
-        mealPlanerRecipeCardListAdapter = null;
-    }
-    public RecycleItemTouchHelper(MealPlanerRecipeCardListAdapter mealPlanerRecipeCardListAdapter)
-    {
-        super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
-        this.mealPlanerRecipeCardListAdapter = mealPlanerRecipeCardListAdapter;
-        recipeCardListAdapter = null;
-        shoppingListAdapter = null;
     }
     public RecycleItemTouchHelper(RecipeCardListAdapter adapter)
     {
         super(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT);
         this.shoppingListAdapter = null;
         recipeCardListAdapter = adapter;
-        mealPlanerRecipeCardListAdapter = null;
     }
 
     @Override
@@ -66,11 +55,12 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    adapter.notifyItemChanged(viewHolder.getAdapterPosition());
+
                 }
             });
+            adapter.notifyItemChanged(viewHolder.getAdapterPosition());
             AlertDialog dialog = builder.create();
-            builder.show();
+            dialog.show();
         }
         else
         {
@@ -98,8 +88,9 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                     shoppingListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                 }
             });
+            shoppingListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
             AlertDialog dialog = builder.create();
-            builder.show();
+            dialog.show();
         }
         else
         {
@@ -117,32 +108,10 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
        else if(shoppingListAdapter!=null) {
            swipeShoppingItem(shoppingListAdapter, viewHolder, direction);
        }
-       else swipeMealPlanerRecipe(mealPlanerRecipeCardListAdapter,viewHolder,direction);
+
     }
 
-    private void swipeMealPlanerRecipe(MealPlanerRecipeCardListAdapter mealPlanerRecipeCardListAdapter, RecyclerView.ViewHolder viewHolder, int direction) {
-        final int position = viewHolder.getAdapterPosition();
-        if(direction == ItemTouchHelper.LEFT)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mealPlanerRecipeCardListAdapter.getContext());
-            builder.setTitle("Delete Task");
-            builder.setMessage("Are you sure you want to delete this shopping Item");
-            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mealPlanerRecipeCardListAdapter.deleteItem(position);
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mealPlanerRecipeCardListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-    }
+
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -164,9 +133,6 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                 icon = ContextCompat.getDrawable(shoppingListAdapter.getContext(), R.drawable.ic_baseline_edit_24);
                 background = new ColorDrawable(ContextCompat.getColor(shoppingListAdapter.getContext(),R.color.CaribbeanGreen));
             }
-            else {
-
-            }
 
         }
         else
@@ -183,10 +149,7 @@ public class RecycleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                 background = new ColorDrawable(ContextCompat.getColor(shoppingListAdapter.getContext(),R.color.red));
 
             }
-            else {
-                icon = ContextCompat.getDrawable(mealPlanerRecipeCardListAdapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
-                background = new ColorDrawable(ContextCompat.getColor(mealPlanerRecipeCardListAdapter.getContext(),R.color.red));
-            }
+
 
         }
         if(icon!=null) {

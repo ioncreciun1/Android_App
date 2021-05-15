@@ -57,6 +57,7 @@ public class MealPlanerRecycleItemTouchHelper extends ItemTouchHelper.SimpleCall
                     mealPlanerRecipeCardListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                 }
             });
+            mealPlanerRecipeCardListAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
             AlertDialog dialog = builder.create();
             dialog.show();
         }
@@ -65,8 +66,8 @@ public class MealPlanerRecycleItemTouchHelper extends ItemTouchHelper.SimpleCall
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        Drawable icon = null;
-        ColorDrawable background = null;
+        Drawable icon ;
+        ColorDrawable background;
         View ItemView = viewHolder.itemView;
         int backgroundCornerOffset = 20;
 

@@ -99,6 +99,7 @@ public class RecipeCardListAdapter extends RecyclerView.Adapter<RecipeCardListAd
         Class destination = CreateRecipeActivity.class;
         Intent intent = new Intent(context, destination);
         intent.putExtra("RecipeID",card.getID_recipe());
+        notifyItemChanged(position);
 
         try
         {
