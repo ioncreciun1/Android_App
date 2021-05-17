@@ -69,7 +69,7 @@ public class CreateRecipeActivity extends AppCompatActivity
         helper.attachToRecyclerView(ingredientList);
     }
 
-    @SuppressLint("SetTextI18n")
+
     private void initiate()
     {
         initiateVariables();

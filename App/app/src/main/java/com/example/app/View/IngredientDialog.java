@@ -26,14 +26,18 @@ public class IngredientDialog  extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
         viewModel = new ViewModelProvider(this).get(CreateRecipeActivityViewModel.class);
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
+
         View view = inflater.inflate(R.layout.dialog_add_ingredient,null);
         ingredientName = view.findViewById(R.id.edit_add_ingredient);
         Bundle bundle = getArguments();
+
         if(bundle!=null)
             ingredientName.setText(bundle.getString("IngredientName"));
+
         dialog.setView(view).setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

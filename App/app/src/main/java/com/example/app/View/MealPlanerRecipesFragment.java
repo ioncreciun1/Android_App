@@ -41,7 +41,6 @@ public class MealPlanerRecipesFragment  extends Fragment {
 
     private void init(View view)
     {
-        System.out.println("Initialized");
         list = new ArrayList<>();
         list.clear();
         viewModel = new ViewModelProvider(this).get(MealPlanerRecipesFragmentViewModel.class);
@@ -56,13 +55,12 @@ public class MealPlanerRecipesFragment  extends Fragment {
 
         ItemTouchHelper helper = new ItemTouchHelper(new MealPlanerRecycleItemTouchHelper(adapter));
         helper.attachToRecyclerView(recyclerView);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View root =inflater.inflate(R.layout.fragment_recipe_card_list, container, false);
         init(root);
         return root;
@@ -70,7 +68,6 @@ public class MealPlanerRecipesFragment  extends Fragment {
 
     public void deleteItem(int id_recipe)
     {
-
         viewModel.deleteRecipe(id_recipe,day);
     }
 }

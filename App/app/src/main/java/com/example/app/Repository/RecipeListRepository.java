@@ -29,7 +29,6 @@ public class RecipeListRepository {
     private RecipeListRepository(Application application) {
         RecipeDatabase database = RecipeDatabase.getInstance(application);
         dao = database.dao();
-       // items = dao.getRecipeWithIngredients();
         ingredients = new MutableLiveData<>();
         List<Ingredient> newIngredients = new ArrayList<>();
         ingredients.setValue(newIngredients);

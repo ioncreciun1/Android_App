@@ -43,7 +43,7 @@
                 android:layout_marginTop="70dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Description" />
+                android:text="@string/description" />
 
             <TextView
                 android:id="@+id/recipeDescription"
@@ -78,7 +78,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Preparation" />
+                android:text="@string/preparation" />
 
             <TextView
                 android:id="@+id/recipePreparation"

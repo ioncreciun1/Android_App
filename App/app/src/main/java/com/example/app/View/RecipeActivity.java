@@ -42,7 +42,6 @@ public class RecipeActivity extends AppCompatActivity
         viewModel.getRecipe(id).observe(this,recipeWithIngredients -> {
            adapter.setItems(recipeWithIngredients.getIngredients());
             ingredients.setAdapter(adapter);
-           // name.setText(recipeWithIngredients.getRecipe().getTitle());
             preparation.setText(recipeWithIngredients.getRecipe().getPreparation());
             description.setText(recipeWithIngredients.getRecipe().getDescription());
             toolbar.setTitle(recipeWithIngredients.getRecipe().getTitle());

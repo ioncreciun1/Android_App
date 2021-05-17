@@ -59,6 +59,12 @@ public abstract class RecipeDAO {
     @Delete
     public abstract void Delete(Recipe item);
 
+    @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe")
+    public abstract void deleteWeekDayRecipe(int id_recipe);
+
+    @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe and WeekDay like :day")
+    public abstract void deleteWeekDayRecipe(int id_recipe,String day);
+
 
     @Query("DELETE from Recipe where ID_recipe = :id")
     abstract public void deleteRecipeById(int id);
@@ -86,10 +92,6 @@ public abstract class RecipeDAO {
             " where WDR.WeekDay = :weekDay")
     abstract public LiveData<List<RecipeCard>> getRecipesByWeekDay(String weekDay);
 
-    @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe")
-    public abstract void deleteWeekDayRecipe(int id_recipe);
 
-    @Query("DELETE from WeekDay_Recipe where FK_ID_recipe = :id_recipe and WeekDay like :day")
-    public abstract void deleteWeekDayRecipe(int id_recipe,String day);
 
 }

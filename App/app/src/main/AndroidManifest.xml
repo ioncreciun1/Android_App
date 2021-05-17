@@ -8,15 +8,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/Theme.App">
+
         <activity android:name=".View.RecipeActivity"
             android:parentActivityName=".View.MainActivity"
+            android:screenOrientation="portrait"
  />
         <activity android:name=".View.CreateRecipeActivity"
             android:parentActivityName=".View.MainActivity"
+            android:screenOrientation="portrait"
             />
 
-        <activity android:name=".View.MainActivity">
+        <activity android:name=".View.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
