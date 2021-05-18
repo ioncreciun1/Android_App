@@ -43,8 +43,8 @@ public class MealPlanerRecycleItemTouchHelper extends ItemTouchHelper.SimpleCall
         if(direction == ItemTouchHelper.LEFT)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(mealPlanerRecipeCardListAdapter.getContext());
-            builder.setTitle("Delete Task");
-            builder.setMessage("Are you sure you want to delete this shopping Item");
+            builder.setTitle("Delete Recipe from Week Day");
+            builder.setMessage("Are you sure you want to delete this recipe from this day");
             builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
