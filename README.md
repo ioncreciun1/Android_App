@@ -16,5 +16,9 @@ Medium
 
 Low
 7.AS a user I want to delete items from shopping list.
-8.As a user I want to add snacks between meals.
-9.As a user I want to set time for when to prepare my next week plan and get a notification then.
+8.As a user I want to add snacks between meals. //Not Done
+9.As a user I want to set time for when to prepare my next week plan and get a notification then.  //Not Done
+
+
+Video To youtube:
+https://youtu.be/JS4Pg97FH8w
